@@ -1,0 +1,242 @@
+\documentclass[norsk,a4paper,12pt]{article} 
+\usepackage[norsk]{babel} 
+\usepackage[T1]{fontenc} %for å bruke æøå 
+\usepackage[utf8x]{inputenc} 
+\usepackage{graphicx} %for å inkludere grafikk 
+\usepackage{verbatim} %for å inkludere filer med tegn LaTeX ikke liker 
+\usepackage{amsfonts} 
+\usepackage{amsmath} 
+\usepackage{amssymb} 
+\usepackage{savesym} 
+\savesymbol{square} 
+%\bibliographystyle{plain} 
+\usepackage{float} 
+\usepackage{SIunits} 
+\usepackage{textcomp} 
+\usepackage{parskip} 
+\usepackage{array} 
+%\usepackage[framed]{mcode} 
+\usepackage[margin=2.3cm]{caption}
+\usepackage{listings}
+
+
+
+\begin{document}
+\title{AST 3310: Prosjekt 2}
+\author{Peder Forfang}
+\maketitle
+
+
+\section{Rapport}
+
+\subsection{Innledning}
+
+Energien som blir produsert i kjernen av sola flyttes til overflaten på to forskjellige måter; stråling og konveksjon.
+Hvilken av de to som dominerer kommer ann på den kjemiske sammensetningen, temeratur og trykk til området i sola vi 
+ser på. I prosjekt 1 lagde vi en modell for kjernen av sola der energien blir transportert ved hjelp av fotoner. 
+Når energien 
+når lengre ut i solen klarer ikke fotonene å flytte energien raskt nok. Gassen blir ustabil og begynner å bevege seg.
+Dette er når konveksjon tar over energitransporten. Den varme gassen flyttes opp til overflaten av sola der stråling
+igjen tar over transporten av energien og sender den ut i rommet. Gassen kjøles så ned og flyter ned i sola igjen. 
+Prosjekt 2 går ut på å legge til konveksjon i modellen vår.
+
+\begin{figure}[H] 
+\begin{center} 
+\includegraphics[scale=0.5]{working.png} 
+ 
+
+\caption{Figur av konveksjon og strålings sonene i sola.} 
+\end{center} 
+\end{figure}
+
+\subsection{Fremgangsmåte}
+Prosjektet innebærer blant annet å løse oppgave 5.10 for å finne et uttrykk for konveksjon fluksen: 
+
+\begin{align*}
+F_C = \rho c_PT\sqrt{g\delta}H_P^{-3/2}(\frac{l_m}{2})^2(\nabla - \nabla^{\textasteriskcentered})^{3/2}
+\end{align*} 
+
+der $\nabla$ er den totale temperatur gradienten og $\nabla^{\textasteriskcentered}$ er temperatur gradienten til 
+et volum av gass som har oppdrift. 
+
+Strålingfluksen kan uttrykkes slik
+
+\begin{align*}
+F_R = \frac{4acGT^4m}{3\kappa Pr^2}\nabla
+\end{align*} 
+
+og den totale fluksen er
+
+
+\begin{align*}
+F_C + F_R = \frac{4acGT^4m}{3\kappa Pr^2}\nabla_{rad}
+\end{align*}
+
+Der $\nabla_{rad} $ er temeratur gradienten som trengs for at all energi blir transformert av stråling.
+For å gjøre regningen videre mer oversiktlig lager jeg definisjonene 
+
+\begin{align*}
+A = \rho c_PT\sqrt{g\delta}H_P^{-3/2}(\frac{l_m}{2})^2
+\end{align*} 
+
+\begin{align*}
+B = \frac{4acGT^4m}{3\kappa Pr^2}
+\end{align*} 
+
+Ved å kombinere disse uttrykkene får vi
+
+\begin{align*}
+A(\nabla - \nabla^{\textasteriskcentered})^{3/2} = B(\nabla_{rad} - \nabla)
+\end{align*}
+
+Gjennom å se på temperaturforskjellen til volumet som har oppdrift og omgivelsene får vi et uttrykk som gir oss
+foskjellen mellom temperatur gradienten inne i volumet og den adiabatiske temperatur gradienten.
+
+\begin{align*}
+(\nabla^{\textasteriskcentered} - \nabla_{ad}) = \frac{32\sigma T^3}{3\kappa \rho^3c_Pv}\frac{S}{Qd}(\nabla - \nabla^{\textasteriskcentered})
+\end{align*}
+
+hvor 
+
+\begin{align*}
+v = \sqrt{\frac{g\delta l_m^2}{4H_P}}(\nabla - \nabla^{\textasteriskcentered})^{1/2}
+\end{align*}
+
+og S, d og Q er geometriske konstanter. Disse kan bli uttrykt ved $l_m $ ved radiusen til volumet
+
+\begin{align*}
+\frac{S}{Qd} = 2\frac{1}{r_P}
+\end{align*} 
+
+hvor vi antar at $r_P = \frac{1}{2}l_m $. 
+
+\begin{align*}
+\Rightarrow \frac{S}{Qd} = \frac{4}{l_m}
+\end{align*} 
+
+Ved litt triksing kan vi bruke uttrykket
+
+\begin{align*}
+(\nabla^{\textasteriskcentered} - \nabla_{ad}) = (\nabla - \nabla_{ad}) - (\nabla - \nabla^{\textasteriskcentered})
+\end{align*} 
+
+til å få en annengradsligning for $(\nabla - \nabla^{\textasteriskcentered})^{\frac{1}{2}} $, som har løsning
+
+\begin{align*}
+\xi = -\frac{2U}{l_m^2} + \sqrt{(\frac{2U}{l_m^2})^2 + (\nabla - \nabla_{ad})}
+\end{align*} 
+
+hvor
+
+\begin{align*}
+U = \frac{64\sigma T^3}{3\kappa \rho^2c_P}\sqrt{\frac{H_P}{g\delta}}
+\end{align*} 
+
+Annengradsligningen har bare en reell løsning. Siden $\xi $ er en kvadratrot må den være positiv, derav plusstegnet 
+mellom leddene. Ved å sette løsningen inn i uttrykket
+
+
+\begin{align*}
+A(\nabla - \nabla^{\textasteriskcentered})^{3/2} = B(\nabla_{rad} - \nabla)
+\end{align*}
+
+kan vi eliminere $\nabla $ og finne konveksjon fluksen.
+
+\begin{align*}
+A\xi^3 = B(\nabla_{rad} - \nabla)
+\end{align*}
+
+\begin{align*}
+\Rightarrow \nabla = \frac{B\nabla_{rad} - A\xi^3}{B} = \nabla_{rad} - \frac{A\xi^3}{B}
+\end{align*}
+
+hvor 
+
+\begin{align*}
+\nabla_{rad} = \frac{3\kappa LP}{64\pi\sigma GT^4m} = \frac{L}{4\pi r^2B}
+\end{align*}
+
+der $\sigma = \frac{ac}{4} $ er Stefan Boltzmanns konstant og A og B er som definert over.
+
+\begin{align*}
+\Rightarrow \nabla = \frac{1}{B}(\frac{L}{4\pi r^2} - A\xi^3)
+\end{align*}
+
+Ser vi tilbake på annengradsligningen $\xi $ kan vi bruke denne til å finne enda et uttrykk for $\nabla $.
+
+\begin{align*}
+\sqrt{(\frac{2U}{l_m^2})^2 + (\nabla - \nabla_{ad})} = \xi + \frac{2U}{l_m^2}
+\end{align*} 
+
+\begin{align*}
+\Rightarrow \nabla = \xi^2 + \frac{4U}{l_m^2}\xi + \nabla_{ad}
+\end{align*}
+
+Setter vi disse to uttrykkene for $\nabla $ lik hverandre ender vi opp med
+
+\begin{align*}
+\Rightarrow \xi^3\frac{A}{B} + \xi^2 + \frac{4U}{l_m^2}\xi + (\nabla_{ad} - \nabla_{rad}) = 0
+\end{align*}
+
+Dette er en tredjegradsligning som kan løses
+numerisk i python slik 
+
+\begin{lstlisting}
+def xieq(A, B, U, H_P, nabla_ad, nabla_rad):
+	coeff = [A/B, 1, 4*U/H_P**2, (nabla_ad - nabla_rad)]
+	xi = roots(coeff)
+	for e in xi:
+		if imag(e) == 0:
+			xi = real(e) 
+			break
+	return xi
+\end{lstlisting}
+
+
+Vi har nå alt vi trenger for å finne fluksen.
+
+\begin{align*}
+F_C + F_R = \frac{4acGT^4m}{3\kappa Pr^2}\nabla_{rad}
+\end{align*}
+
+der
+
+\begin{align*}
+F_C = A\xi^3
+\end{align*}
+
+\begin{align*}
+F_R = \frac{L}{4\pi r^2} - A\xi^3 
+\end{align*}
+
+
+Nå kan vi implementere konveksjon i modellen. Ettersom vi flytter oss gjennom stjernen gjør vi en sjekk om 
+gassen er konvektiv stabil ved ustabilitets kriteriet
+
+\begin{align*}
+\nabla > \nabla_{ad}
+\end{align*}
+
+Er gassen ustabil er konveksjon den dominerende transporten.
+
+\begin{lstlisting}
+def konveksjon(nabla, nabla_ad):
+	xi = xieq(A, B, U)	
+	F_R = B*nabla
+	F_C = A*xi**3
+	if nabla > nabla_ad:
+		F = F_C
+	else:
+		F = F_R
+	return F
+\end{lstlisting}
+
+
+\subsection{Resultat}
+
+Jeg hadde enkelte problemer i første prosjekt som har vist seg å være standhaftige. Steglengden $\partial m $ er 
+fortsatt problemet, da den går mot null i rasende fart. Etter å ha skrevet om programmet, selv med hjelp fra 
+mange hold, lar det seg ikke løse. Energi funksjonen viste seg ikke å være problemet, da jeg har testet den opp mot 
+sanety testen og andres resultater. Utregningen av $\partial m $ i seg selv kan jeg ikke 
+
+\end{document}
